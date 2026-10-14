@@ -25,7 +25,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'Segoe UI', 'sans-serif'],
-        display: ['Inter', 'Segoe UI', 'sans-serif'],
+        display: ['Newsreader', 'Georgia', 'serif'],
       },
       boxShadow: {
         pastel: '0 24px 60px -28px rgba(79, 70, 229, 0.35)',
