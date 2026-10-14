@@ -12,6 +12,7 @@ function getInitialTheme() {
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getInitialTheme)
+  const [skyShift, setSkyShift] = useState(0)
 
   useEffect(() => {
     const root = document.documentElement
@@ -20,17 +21,27 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem(STORAGE_KEY, theme)
 
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#030712' : '#F8FAFC')
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b1220' : '#d7ecff')
   }, [theme])
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      setSkyShift(Math.min(1, window.scrollY / max))
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const value = useMemo(
     () => ({
       theme,
       isDark: theme === 'dark',
+      skyShift,
       toggleTheme: () => setTheme((current) => (current === 'dark' ? 'light' : 'dark')),
-      setTheme,
     }),
-    [theme],
+    [theme, skyShift],
   )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
